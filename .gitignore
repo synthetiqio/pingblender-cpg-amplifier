@@ -1,4 +1,6 @@
-*scratch.*
+*.env
+*local/
+*scratch*
 
 # Logs
 logs
