@@ -1,0 +1,78 @@
+name: "Deploy Scrambler - Pingblender CPG"
+
+on:
+  push:
+    branches: [main]
+
+jobs:  
+  
+  build:
+    runs-on: ubuntu-latest
+    env:
+      #REQUESTS_CA_BUNDLE: ${{ vars.REQUESTS_CA_BUNDLE }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #FEDERATED POSTGRESQL PGVector Variables
+      POSTGRES_SYNC: ${{ secrets.POSTGRES_SYNC }}
+      POSTGRES_DRIVER: ${{ secrets.POSTGRES_DRIVER }}
+      #POSTGRES_SCHEMA: ${{ secrets.POSTGRES_SCHEMA }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_TYPE: ${{ secrets.POSTGRES_TYPE }}
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_NON_ROOT_USER: ${{ secrets.POSTGRES_NON_ROOT_USER }}
+      POSTGRES_NON_ROOT_PASSWORD: ${{ secrets.POSTGRES_NON_ROOT_PASSWORD }}
+      
+      #N8N Variables and Construct
+      NEO4JU: ${{ secrets.NEO4JU }}
+      NEO4JP: ${{ secrets.NEO4JP }}
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSION: ${{ secrets.N8N_ENFORCE_SETTINGS_FILE_PERMISSION }}
+      N8N_BASIC_USER: ${{ secrets.N8N_BASIC_USER }}
+      N8N_BASIC_PASSWORD: ${{ secrets.N8N_BASIC_PASSWORD }}
+
+      # #AWS PARAM Coverage
+      # AWS_S3_BUCKET: ${AWS_S3_BUCKET}
+      # AWS_S3_STREAM: ${AWS_S3_STREAM}
+      # AWS_S3_SECRET: ${AWS_S3_SECRET}
+      # AWS_S3_ACCESS: ${AWS_S3_ACCESS}
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCOUNT_ACCESS}}
+          aws-secret-access-key: ${{ secrets.AWS_ACCOUNT_SECRET}}
+          aws-region: ${{ secrets.AWS_ACCOUNT_REGION }}
+
+      - name: Log in to AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_ACCOUNT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+        
+      - name: Get version from VERSION file
+        id: get-version
+        run: |
+          if [ -f VERSION ]; then
+            VERSION=$(cat VERSION)
+          else
+            echo "VERSION file not found. Exiting..."
+            exit 1
+          fi
+          echo "Current version: $VERSION"
+          echo ::set-output name=version::$VERSION
+
+      - name: Build Docker image
+        run: |
+          docker build -t synthetiqio/pingblender-cpg-amplifier:latest .
+
+      - name: Set tag for ECR Repo and ECS Pipeline.
+        run: |
+          docker tag synthetiqio/pingblender-cpg-amplifier:latest ${{ secrets.ECR_REPOSITORY }}:latest
+
+      - name: Push Docker image to AWS ECR
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
