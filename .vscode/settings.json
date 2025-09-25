@@ -1,0 +1,4 @@
+{
+    "makefile.configureOnOpen" : false, 
+    "editor.rulers": [80,120]
+}

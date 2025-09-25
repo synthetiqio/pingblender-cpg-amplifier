@@ -2,7 +2,7 @@ FROM python:3.13-slim-bookworm
 ARG REQUESTS_CA_BUNDLE
 LABEL maintainer="synthetiqsignals.com" \
     org.label-schema.docker.dockerfile="/Dockerfile" \
-    org.label-schema.name="Pingblender" 
+    org.label-schema.name="Scrambler Signals Base - PYTHON 3.13-slim-bookworm" 
 
 #python variable settings for image set
 ENV PYTHONPATH="/app/signals/" \
@@ -40,7 +40,7 @@ RUN python -m venv /venv
 RUN /venv/bin/python -m pip install --upgrade pip
 RUN /venv/bin/pip install -r requirements.txt
 
-EXPOSE 1010 5432 5678
+EXPOSE 1010 5432
 
 #access entrypoint as intended.
 ENTRYPOINT [ "/app/signals/entrypoint.sh" ]
