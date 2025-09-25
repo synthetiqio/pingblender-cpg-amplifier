@@ -1,0 +1,69 @@
+#Routing Enbaled
+APP_ROUTER=true
+APP_ROUTE=/ #default setting for use with router.
+
+#[HASHICORP]
+HC_TEAM_TOKEN=<HASHICORP TOKEN>
+REQUESTS_CA_BUNDLE="./cert/ca-bundle.crt" #certs should be created for any new run.
+
+#[run settings]
+LOCAL_TEST_OVERRIDE=false
+DOCKERIZED=true
+DOMAIN=local.pingblender.com #modify host file if running local or use host.docker.internal
+APP_HOST=0.0.0.0
+APP_PORT=8000
+APP_RELOAD=true
+
+#OpenAI Read and Write Keys
+OPENAI_API_KEY="<PASSWORD>"
+
+#[postgres root credentials and settings.]
+POSTGRES_SYNC=true
+POSTGRES_DRIVER=psycopg2
+POSTGRES_USER=synthetiq_services
+POSTGRES_TYPE=postgresdb
+POSTGRES_HOST=local.pingblender.com
+POSTGRES_PASSWORD="<PASSWORD>"
+POSTGRES_DB=graffiti_database
+POSTGRES_PORT=5432
+POSTGRES_NON_ROOT_USER=graffiti_datauser
+POSTGRES_NON_ROOT_PASSWORD="<PASSWORD>"
+
+#[add db administration]
+PGADMIN_DEFAULT_EMAIL="<EMAIL>"
+PGADMIN_DEFAULT_PASSWORD="<PASSWORD>"
+
+#[neo4j graph database]
+NEO4J_AUTH="neo4j/<PASSWORD>"
+NEO4JU=neo4j
+NEO4JP="<PASSWORD>"
+
+#[n8n data science canvas]
+N8N_ENFORCE_SETTINGS_FILE_PERMISSION=false 
+N8N_BASIC_USER=''
+N8N_BASIC_PASSWORD=""
+
+#[Azure Storage (WASB) Azurite Emulator]
+AZURE_STORAGE_URL="https://devstoreaccount1.blob.core.windows.net"
+AZURE_STORAGE_ACCOUNT="devstoreaccount1"
+AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+AZURE_STORAGE_ACCOUNT_CONTAINER="graffiti-blackbook"
+AZURE_STORAGE_CONNECTION_STRING="AccountName=devstoreaccount1,AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
+
+
+
+
+#AMAZON Interface Controls and IAM - [ROOT]
+AWS_ACCOUNT_REGION="us-east-1"
+AWS_ACCOUNT_ACCESS=""
+AWS_ACCOUNT_SECRET="
+
+#[graffiti-platform-administrator]
+AWS_SERVICE=""
+AWS_SECRET="
+
+#[Amazon Credentials for Account/Assets]
+AWS_S3_BUCKET=""
+AWS_S3_STREAM=""
+AWS_S3_SECRET=""
+AWS_S3_ACCESS=
