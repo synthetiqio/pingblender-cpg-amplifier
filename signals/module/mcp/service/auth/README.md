@@ -1,0 +1,1 @@
+### MCP Auth for Simple Token-Based Authentication.

@@ -41,11 +41,11 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
       - DB_PORT=${POSTGRES_PORT}
     ports:
-      - "5432:5432"
+      - "8000:8000"
     volumes:
-      - ./cert:/etc/ssl/certs
-      - ./local/postgres/data:/var/lib/postgresql/data
-      - ./init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
+      - ./shell/init-data.sh:/docker-entrypoint-initdb.d/initdb.sh
+      #- ./signals/module/medicine/hcp/install/init-data.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./signals/db/pgdata:/var/lib/postgresql/data
     networks:
       - synthetiq-agent
     # healthcheck:
@@ -53,6 +53,53 @@ services:
     #   interval: 5s
     #   timeout: 5s
     #   retries: 10
+
+
+  graph:
+    image: neo4j:latest
+    container_name: "neo4j-graphdb-latest"
+    volumes:
+        - ./cert:/etc/ssl/certs
+        - ./signals/local/canvas/share/graph:/home/site/shared-volume/graph
+        - ./signals/local/graph/logs:/logs
+        - ./signals/local/graph/config:/config
+        - ./signals/local/graph/data:/data
+        - ./signals/local/graph/plugins:/neo4j/plugins:/plugins
+    environment:
+        - NEO4J_AUTH=${NEO4JU}/${NEO4JP}
+    ports:
+      - "7474:7474"
+      - "7473:7473"
+      - "7687:7687"
+    networks:
+      - synthetiq-agent
+
+  canvas:
+    image: naskio/n8n-python:latest
+    container_name: 'n8n-canvas'
+    restart: always
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_PASSWORD}
+      - N8N_SSL_KEY=${REQUESTS_CA_BUNDLE}
+      - DB_TYPE=${POSTGRES_TYPE}
+      - DB_POSTGRESDB_HOST=${POSTGRES_HOST}
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_POSTGRESDB_PORT=${POSTGRES_PORT}
+      - NODE_FUNCTION_ALLOW_EXTERNAL=axios,qs
+    ports:
+      - 5678:5678
+    volumes:
+      - ./cert:/etc/ssl/certs
+      - ./signals/local/canvas/share:/home/site/shared-volume
+      - ./signals/local/azurite/data:/home/site/shared-volume/azurite
+      - ./signals/local/canvas/data:/home/site/local-volume/canvas
+    networks:
+      - synthetiq-agent
 
 networks:
   synthetiq-agent:

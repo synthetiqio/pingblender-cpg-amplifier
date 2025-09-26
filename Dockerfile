@@ -2,7 +2,7 @@ FROM python:3.13-slim-bookworm
 ARG REQUESTS_CA_BUNDLE
 LABEL maintainer="synthetiqsignals.com" \
     org.label-schema.docker.dockerfile="/Dockerfile" \
-    org.label-schema.name="Pingblender" 
+    org.label-schema.name="Scrambler Signals Base - PYTHON 3.13-slim-bookworm" 
 
 #python variable settings for image set
 ENV PYTHONPATH="/app/signals/" \
@@ -14,9 +14,8 @@ ENV PYTHONPATH="/app/signals/" \
 COPY ${REQUESTS_CA_BUNDLE} /etc/docker/certs.d/
 
 WORKDIR /app/
-
+COPY . /app/
 #copy directory to /app/
-COPY . . 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc git ca-certificates \
     && update-ca-certificates \
@@ -25,10 +24,21 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+
+#set policy for access to entrypoint.sh
+WORKDIR /app/signals/
+RUN chmod +x entrypoint.sh
+
 #ready NodeJS for image interface.
 # RUN apt-get update && apt-get install -y \
 #      software-properties-common \
 #      npm
+
+# RUN npm init
+
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+RUN useradd -r -g appuser serviceuser
+RUN chown -R appuser:appuser /app/
 
 #set policy for access to entrypoint.sh
 WORKDIR /app/signals/
@@ -40,7 +50,7 @@ RUN python -m venv /venv
 RUN /venv/bin/python -m pip install --upgrade pip
 RUN /venv/bin/pip install -r requirements.txt
 
-EXPOSE 1010 5432
+EXPOSE 1010 5432 7474 5678 7473 7687
 
 #access entrypoint as intended.
 ENTRYPOINT [ "/app/signals/entrypoint.sh" ]
