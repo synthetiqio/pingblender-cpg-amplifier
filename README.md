@@ -1,4 +1,4 @@
-### Pingblender CPG&copy; [A2A Workflows] - Analytics, Marketing, Advertising
+# Pingblender CPG&copy; [A2A Workflows] - Analytics, Marketing, Advertising
 Full stack application to present a ready infrastructure for use with evolving AI and pattern standards. The broad field controls and human-in-the-loop layout assures that the 23Controls Agents carry out management and control of the data it uses throughout the profile lifetime. 
 
 ## CURRENT UNIT [TRL3]
@@ -12,15 +12,15 @@ Full stack application to present a ready infrastructure for use with evolving A
 [![GitHub Discussions][discussions-badge]][discussions-url]
 </div>
 
-## Case 1: CPG Brand Coverage for Marketing Collateral Workflows &amp; Personalization
+### Case 1: CPG Brand Coverage for Marketing Collateral Workflows &amp; Personalization
 Pingblender CPG is the solution to the complex mess of transformation and coordination that takes place over the lifecycle of the message economy surrounding popular products and incentives. Quickly handle approval via workflow agents and leverage capacities of expertise informed ‘Agents’ to carry out functions interpreting the CPG economy in one or many product flagships, across the world. Make personalization relevant nuancing messaging with regional dialects, while targeting attributes to hydrate the RAG.
 
 
 
 
-### Containerized/Dockerized LOCAL Installation
+## Containerized/Dockerized LOCAL Installation
 
-# Core Signals Container Stack 
+### Core Signals Container Stack 
 The local interface for Pingblender is built on the SynthetIQ Signals framework and our 23Controls&reg;
 From a Docker enabled command line you can deploy the stack which includes:
 - Python 3.13 | FastAPI Endpoint 
@@ -32,10 +32,10 @@ From a Docker enabled command line you can deploy the stack which includes:
 - NEO4j Composite Graph DB 
 - Hashicorp Terraform INFRA Deployment (Commercial License Required)
 
-## Configure AWS & Docker Access
+### Configure AWS & Docker Access
 If you intend to use the platform deployment in some commercial capacity, you'll need to use the licensed version of the technology which relies on having access to DockerHUb and a private IAM for the endpoint. In these cases, you can supply a AWS token in your ENV file. 
 
-## Run Local with Dock
+### Run Local with Dock
 ```bash
 docker-compose up -d --build 
 ```
@@ -45,13 +45,13 @@ The OOTB Pingblender containierized platform is enhanced with a series of upgrad
 ## Separately Activate MCP Server for AUTH/Chat
 In order to run Agents within N8N, they need to be started manually in the instructions set below for any purpose. 
 
-# Start MCP Server (Generic)
+### Start MCP Server (Generic)
 ```bash
 cd signals/module/mcp/server
 uv run mcp
 ```
 
-# Start individual services
+### Start individual services
 ```bash
 uv run [service] --[port=####] #name in pyproject.toml
 ```
