@@ -3,3 +3,4 @@
 *venv*
 *local*
 */pgdata
+*_pycache_*
