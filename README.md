@@ -16,6 +16,8 @@ Full stack application to present a ready infrastructure for use with evolving A
 Pingblender CPG is the solution to the complex mess of transformation and coordination that takes place over the lifecycle of the message economy surrounding popular products and incentives. Quickly handle approval via workflow agents and leverage capacities of expertise informed ‘Agents’ to carry out functions interpreting the CPG economy in one or many product flagships, across the world. Make personalization relevant nuancing messaging with regional dialects, while targeting attributes to hydrate the RAG.
 
 
+### Demonstration Link (Video)
+HERE:  https://www.loom.com/share/1116236865044bb7b690d39de4b1b167?sid=fa7a561a-8a5d-45aa-8b9a-9cefde57217a
 
 
 ## Containerized/Dockerized LOCAL Installation

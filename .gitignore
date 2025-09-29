@@ -3,4 +3,6 @@
 *venv*
 *local*
 */pgdata
-*_pycache_*
+*db*
+*__pycache__*
+*unit_test*
