@@ -5,16 +5,14 @@ LABEL maintainer="synthetiqsignals.com" \
     org.label-schema.name="Scrambler Signals Base - PYTHON 3.13-slim-bookworm" 
 
 #python variable settings for image set
-ENV PYTHONPATH="/app/signals/" \
-    PYTHONDONTWITEBYTECODE=1 \
-    PYTHONBUFFERED=1 \
-    REQUESTS_CA_BUNDLE=${REQUESTS_CA_BUNDLE}
-
-#handle cert placement explicitly
-COPY ${REQUESTS_CA_BUNDLE} /etc/docker/certs.d/
+ENV PYTHONPATH=/app/signals/
+ENV PYTHONDONTWITEBYTECODE=1 
+ENV PYTHONBUFFERED=1 
+ENV REQUESTS_CA_BUNDLE=${REQUESTS_CA_BUNDLE}
 
 WORKDIR /app/
-COPY . /app/
+COPY . .
+
 #copy directory to /app/
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc git ca-certificates \
@@ -24,9 +22,9 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
 #set policy for access to entrypoint.sh
 WORKDIR /app/signals/
+COPY ./signals/entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 #ready NodeJS for image interface.
@@ -40,17 +38,15 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 RUN useradd -r -g appuser serviceuser
 RUN chown -R appuser:appuser /app/
 
-#set policy for access to entrypoint.sh
-WORKDIR /app/signals/
-RUN chmod +x entrypoint.sh
 
 #create a virtual environment to run in closed unit
 WORKDIR /app
 RUN python -m venv /venv
 RUN /venv/bin/python -m pip install --upgrade pip
-RUN /venv/bin/pip install -r requirements.txt
+RUN /venv/bin/pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 1010 5432 7474 5678 7473 7687
+
 
 #access entrypoint as intended.
 ENTRYPOINT [ "/app/signals/entrypoint.sh" ]
