@@ -22,31 +22,13 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-#set policy for access to entrypoint.sh
-WORKDIR /app/signals/
-COPY ./signals/entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
-#ready NodeJS for image interface.
-# RUN apt-get update && apt-get install -y \
-#      software-properties-common \
-#      npm
-
-# RUN npm init
-
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-RUN useradd -r -g appuser serviceuser
-RUN chown -R appuser:appuser /app/
-
-
 #create a virtual environment to run in closed unit
-WORKDIR /app
+WORKDIR /app/signals/
 RUN python -m venv /venv
 RUN /venv/bin/python -m pip install --upgrade pip
-RUN /venv/bin/pip install --no-cache-dir -r requirements.txt
+RUN /venv/bin/pip install -r requirements.txt
 
-EXPOSE 1010 5432 7474 5678 7473 7687
-
+EXPOSE 8000 5432 7474 5678 7473 7687
 
 #access entrypoint as intended.
-ENTRYPOINT [ "/app/signals/entrypoint.sh" ]
+ENTRYPOINT [ "/app/shell/entrypoint.sh" ]
