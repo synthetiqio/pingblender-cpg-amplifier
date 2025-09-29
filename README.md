@@ -4,12 +4,6 @@ Full stack application to present a ready infrastructure for use with evolving A
 ## CURRENT UNIT [TRL3]
 <div align="center">
 <strong>Pingblender CPG - Running DEMO</strong>
-[![PyPI][pypi-badge]][pypi-url]
-[![MIT licensed][mit-badge]][mit-url]
-[![Python Version][python-badge]][python-url]
-[![Documentation][docs-badge]][docs-url]
-[![Specification][spec-badge]][spec-url]
-[![GitHub Discussions][discussions-badge]][discussions-url]
 </div>
 
 ### Case 1: CPG Brand Coverage for Marketing Collateral Workflows &amp; Personalization
@@ -17,8 +11,11 @@ Pingblender CPG is the solution to the complex mess of transformation and coordi
 
 
 ### Demonstration Link (Video)
-HERE:  https://www.loom.com/share/1116236865044bb7b690d39de4b1b167?sid=fa7a561a-8a5d-45aa-8b9a-9cefde57217a
+<strong>HERE:</strong>  https://www.loom.com/share/1116236865044bb7b690d39de4b1b167?sid=fa7a561a-8a5d-45aa-8b9a-9cefde57217a
 
+
+FULL DEMO: 30 min
+https://www.loom.com/share/38885bb2510b4cd9ac2d6052cf825e60?sid=986a58ef-4fdf-4f5b-af7e-0270cc3847cb
 
 ## Containerized/Dockerized LOCAL Installation
 
