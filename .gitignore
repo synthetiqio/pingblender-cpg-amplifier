@@ -4,5 +4,5 @@
 *local*
 */pgdata
 *db*
-*__pycache__*
+*pycache*
 *unit_test*
