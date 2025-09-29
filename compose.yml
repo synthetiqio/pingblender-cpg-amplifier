@@ -24,7 +24,7 @@ services:
     networks:
       - synthetiq-agent
     ports:
-      - "1010:1010"
+      - "8000:8000"
       
 
   postgres:
