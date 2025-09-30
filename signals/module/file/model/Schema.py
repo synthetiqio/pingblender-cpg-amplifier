@@ -18,7 +18,7 @@ from sqlalchemy.orm import (
 )
 
 from core.model.request import Assign as OpModel
-from module.core.config import Env, System as CoreSys
+from core.config import Env, System as CoreSys
 from module.pgvector.config import ORM 
 
 

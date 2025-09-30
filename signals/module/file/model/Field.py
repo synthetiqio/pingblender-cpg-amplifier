@@ -21,7 +21,7 @@ from sqlalchemy.orm import (
 )
 
 
-from module.core.config import Env, System as CoreSys
+from core.config import Env, System as CoreSys
 from module.pgvector.config import ORM
 from module.pgvector.connect import Interface
 

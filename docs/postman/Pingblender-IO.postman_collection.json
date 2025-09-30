@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "096936fc-59a6-45c9-94e7-c104ce87e2a0",
+		"name": "Pingblender-IO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25227340"
+	},
+	"item": [
+		{
+			"name": "FILE",
+			"item": [
+				{
+					"name": "Action = UPLOAD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/graffiti/source/geneaology/prototype.ged"
+								},
+								{
+									"key": "type",
+									"value": "gedcom",
+									"type": "text"
+								},
+								{
+									"key": "collection",
+									"value": "shields_family",
+									"type": "text"
+								},
+								{
+									"key": "label",
+									"value": "prototype",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://local.pingblender.com:8000/file/upload?file",
+							"protocol": "http",
+							"host": [
+								"local",
+								"pingblender",
+								"com"
+							],
+							"port": "8000",
+							"path": [
+								"file",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Healthcheck",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://local.pingblender.com:8000/healthcheck",
+									"protocol": "http",
+									"host": [
+										"local",
+										"pingblender",
+										"com"
+									],
+									"port": "8000",
+									"path": [
+										"healthcheck"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Fri, 03 Jan 2025 17:13:44 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "13"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"OK Computer\""
+						}
+					]
+				},
+				{
+					"name": "Action = MULTIFILE UPLOAD",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/F:/graffiti/source/health/example/AVAILITY_01012017_123437.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_01042017_123439.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_02072017_123447.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_02222017_123607.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_02282017_123605.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_05252017_123424.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_06272017_123453.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_07192017_123734.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_11092016_123614.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_11162016_123543.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_11192016_123532.DAT",
+										"/F:/graffiti/source/health/example/AVAILITY_11282016_123650.DAT"
+									]
+								},
+								{
+									"key": "label",
+									"value": "edi_837",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "claim",
+									"type": "text"
+								},
+								{
+									"key": "collection_name",
+									"value": "episodiq-test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://local.pingblender.com:8000/files/upload?file",
+							"protocol": "http",
+							"host": [
+								"local",
+								"pingblender",
+								"com"
+							],
+							"port": "8000",
+							"path": [
+								"files",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Healthcheck",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://local.pingblender.com:8000/healthcheck",
+									"protocol": "http",
+									"host": [
+										"local",
+										"pingblender",
+										"com"
+									],
+									"port": "8000",
+									"path": [
+										"healthcheck"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Fri, 03 Jan 2025 17:13:44 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "13"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"OK Computer\""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "EpisodIQ : Claim Digest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://local.pingblender.com:8000/claims/parse|edi|xml?fileurl=&sfid=1a5be9c8-8564-4e75-982b-4c4cb5d06f86",
+							"protocol": "http",
+							"host": [
+								"local",
+								"pingblender",
+								"com"
+							],
+							"port": "8000",
+							"path": [
+								"claims",
+								"parse|edi|xml"
+							],
+							"query": [
+								{
+									"key": "fileurl",
+									"value": ""
+								},
+								{
+									"key": "sfid",
+									"value": "1a5be9c8-8564-4e75-982b-4c4cb5d06f86"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EHR Health",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "File Upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/graffiti/source/health/example/AVAILITY_07192017_123734.DAT"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/file/upload",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://local.episodiq.io:8000/api/v1/open",
+					"protocol": "http",
+					"host": [
+						"local",
+						"episodiq",
+						"io"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchDocument",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

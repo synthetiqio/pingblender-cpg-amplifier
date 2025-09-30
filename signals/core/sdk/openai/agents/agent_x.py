@@ -4,7 +4,7 @@ import os
 print(os.getenv("OPENAI_API_KEY"))
 
 import asyncio
-from agents.realtime import RealtimeAgent, RealtimeRunner
+from agent import RealtimeAgent, RealtimeRunner
 
 async def main():
     # Create the agent

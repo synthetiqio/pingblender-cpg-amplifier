@@ -47,7 +47,7 @@ class Load:
             route : Dict[list, Any] = None, 
             config : Construct = Depends(Construct)
         ):
-        from module.core.config import Env as E
+        from core.config import Env as E
         
         self.route = route
         self.file = file
@@ -102,7 +102,7 @@ class Load:
             route:Dict[list, Any]=None, 
             config:Construct=Depends(Construct)
     ):
-        from module.core.config import Env as E 
+        from core.config import Env as E 
         self.route = route 
         self.file=file 
         self.config=config 
@@ -113,8 +113,8 @@ class Load:
             check=self.route['dataformat'], 
             construct=config 
         )
-        from module.storage.azure.wasb.client import Azure
-        from module.storage.azure.wasb.control import BlobController
+        from module.azure.wasb.client import Azure
+        from module.azure.wasb.control import BlobController
         await Azure.Storing(
             file=self.file
             ).UploadFile()

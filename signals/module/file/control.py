@@ -1,15 +1,17 @@
-import os, uuid
+import os
 from io import BytesIO
 from typing import List, Dict, Any
 from fastapi import UploadFile, Depends
 from sqlalchemy import text, types
 from module.pretzl.parser import Read as ReaderService
 from module.file.action.File import Load as Store
+from module.azure.adi.service.command import DocumentCommand as DocAction
+import uuid
 from module.file.service.command import (
     FileCommand as FileAction, 
     MatrixCommand as MatrixAction
 )
-from core.model.document import Construct
+from core.model.document import Construct, DocumentConfig
 
 class Analyze:
 
@@ -36,7 +38,7 @@ class Collect:
     def getFilesList(
             self
         ):
-        from module.pgvector.control import CollectionController as ColCon
+        from module.pgvector.control import Collection as ColCon
         helper = ColCon.Entity.Query(lookup_key=self.instruct)
         result = helper.getFileList(metadata=self.instruct)
         self.collection = result 
@@ -113,7 +115,6 @@ class File:
             self.result:Dict[List, Any]= {}
             self.metadata= metadata 
             self.interpreter= metadata['request']
-
             if metadata['export']:
                 self.dataformat= metadata['export']
             self.command= command 
@@ -186,9 +187,9 @@ class File:
             stream:BytesIO= None,
             path:str= None
         ):
-        from module.storage.azure.wasb.client import Azure 
-        from module.storage.azure.wasb.config import WASB
-        from module.storage.azure.wasb.control import BlobController as bc 
+        from module.azure.wasb.client import Azure 
+        from module.azure.wasb.config import WASB
+        from module.azure.wasb.control import BlobController as bc 
         result:Dict[List,Any]={}
         env:Dict[List, Any]= WASB.Default.getEnvVariables()
         if file !=None:
@@ -228,7 +229,7 @@ class File:
     async def parity(
             self,
     ):
-        print("FileControl: FileUpload - Start")
+        print("[FILE]: FileUpload - Start")
         self.rs = ReaderService(
             self.file_content, 
             self.file_name,
@@ -251,8 +252,8 @@ class File:
             fn=self.file_name,
             construct=self.init_config
         )
-        z:Dict[List,Any]={}
-        from module.storage.azure.wasb.control import BlobController
+        zed:Dict[List,Any]={}
+        from module.azure.wasb.control import BlobController
         result:Dict[List,Any]= await self.sendToAzureStorage(
             file=self.file_content
         )
@@ -267,18 +268,18 @@ class File:
         bz=bn.split("?")[0]
         pos=os.getcwd()+f'/PRETZL/{bz}'
         blobname=f'data-in/PRETZL/{bz}'
-        z.update({
+        zed.update({
             'result':out, 
             'blob':blobname,
             'file_trace': self.init_config,
             'file_label': self.getFileLabel(),
             'reader_set': rs.getFileReader() 
         })
-        return z
+        return zed
 
     
     async def Blobstore(self):
-        from module.storage.azure.wasb.control import BlobController
+        from module.azure.wasb.control import BlobController
         rs=ReaderService(
             file=self.file_content, 
             fn=self.file_name,
@@ -345,8 +346,7 @@ class Interface:
                 self
             ):
             #TODO: fix what the contractor blew up.
-            from module.file.action.File import Load
-            action = Load()
+            action = Store()
             result = action.getDirectoryListing()
             return result 
         
@@ -482,6 +482,7 @@ class Map:
             graph=self.params['format'], 
             metadata=self.params['metadata']
         )
+        print("[MAP] LIST : MapControl : Create Graph - START")
         result = await MapAttr.Entity.Create(
             package=reader
         ).getFields()
@@ -534,13 +535,17 @@ class Document:
 class Matrix:
 
     class MetadataController: 
-        def __init__(self):
+        def __init__(
+                self, 
+                metadata:Dict[List,Any]
+                ):
+            self.meta = metadata
             pass 
 
         def getAttr(
                 self
         ):
-            from core.model.request import Matrix as RequestUnit
+            from core.model.request import Matrix 
             if 'attr' in self.meta['inputs'].keys():
                 subject:Matrix=self.meta['inputs']['attr']
                 self.meta['inputs']['sfid']=subject.sfid
@@ -582,7 +587,9 @@ class View:
         def getFileName(self)->str:
             from module.pgvector.control import Collection as Coll
             try:
-                file_details= Coll.Entity.Query(lookup_key=self.params['subject']).filename()
+                file_details= Coll.Entity.Query(
+                    lookup_key=self.params['subject']
+                    ).filename()
                 return file_details
             except:
                 raise KeyError('key [sfid] - did not return a result from lookup')
@@ -770,19 +777,19 @@ class Retrieve:
                 lister.append(operator)
             return lister
         except:
-            raise KeyError('SFID not found.')
+            raise KeyError('SFID not found in db trace search.')
         
     def Location(
             self, 
             filename:str = None,
-    ):
+    )->str:
         result:str= ""
         operator:Dict[List,Any]=self.Details()
         if 'entity_pack' in operator and 'result' in operator['entity_pack']:
-            drilin: str= operator['entity_pack']['result']
-            if isinstance(drilin, dict) and 'action_event' in drilin:
-                if isinstance(drilin['action_event'], list) and drilin['action_event']:
-                    result = drilin['action_event'][0]
+            drill: str= operator['entity_pack']['result']
+            if isinstance(drill, dict) and 'action_event' in drill:
+                if isinstance(drill['action_event'], list) and drill['action_event']:
+                    result = drill['action_event'][0]
                 else:
                     raise ValueError('ACTION EVENT is empty or is not configured as a list')
             else:
@@ -797,7 +804,6 @@ class Retrieve:
         self.m['inputs']=Matrix.MetadataController(
             metadata=self.m['inputs']).getAttr()
         from module.file.action.Map import Matrix as Map
-        import types
         if self.m['inputs']['label'] is not None:
             con:str= self.m['inputs']['label']
             r= Map.Entity.Query(lookup_key=con)
@@ -835,16 +841,17 @@ class Retrieve:
     def Details(self)->Dict[List,Any]:
         result:Dict[List,Any]={}
         from module.pgvector.control import Collection as Coll
-        import types
         if self.m['inputs']['sfid'] != None:
             con: types.UUID= self.m['inputs']['sfid']
-            r= Coll.Entity.Query(lookup_key=con)
+            r= Coll.Entity.Query(
+                lookup_key=con
+                )
             result= r.entity_sfid()  
-
         if self.m['inputs']['label'] != None:
-            r= Coll.Entity.Query(lookup_key=self.m['inputs']['label'])
-            result= r.entity_label()
-        
+            r= Coll.Entity.Query(
+                lookup_key=self.m['inputs']['label']
+                )
+            result= r.entity_label()        
         else: 
             pass    
         if self.m['inputs']['name'] is not None:

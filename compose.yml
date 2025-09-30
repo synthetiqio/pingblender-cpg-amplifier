@@ -21,6 +21,14 @@ services:
       - DB_PASSWORD=${POSTGRES_NON_ROOT_PASSWORD}
     depends_on:
       - postgres
+      #- canvas
+    volumes:
+      - ./cert:/usr/local/share/ca-certificates/
+      - ./local/canvas/share/file:/home/site/shared-volume/canvas
+      - ./local/graffiti:/home/site/shared-volume/files
+      - /venv
+    links:
+      - "postgres"
     networks:
       - synthetiq-agent
     ports:
@@ -43,9 +51,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./shell/init-data.sh:/docker-entrypoint-initdb.d/initdb.sh
-      #- ./signals/module/medicine/hcp/install/init-data.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./cert:/etc/ssl/certs
+      - ./local/canvas/share/db:/home/site/shared-volume/db
       - ./signals/db/pgdata:/var/lib/postgresql/data
+      - ./shell/init-data.sh:/docker-entrypoint-initdb.d/initdb.sh
     networks:
       - synthetiq-agent
     # healthcheck:

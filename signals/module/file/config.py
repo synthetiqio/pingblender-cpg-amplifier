@@ -36,7 +36,7 @@ class FILE:
 
 
     class SYS(Enum):
-        from module.storage.azure.wasb.config import WASB as Config
+        from module.azure.wasb.config import WASB as Config
         AFS: Dict[List, Any] = Config.Default.getEnvVariables()
 
         def getRegionalEnv()->Dict[List, Any]:

@@ -125,3 +125,58 @@ class Route:
         def Get(self)->Dict[List, Any]:
             return self.parsed
 
+class Network:
+
+    ERROR_MSG : Dict[List, Any] = {
+        'result' : "Failure", 
+        "message" : "[Network Module - CORE] - An Issue prevented the executions of variables in the CORE Unit.", 
+        "payload" : None
+    }
+
+    CL = os.environ.get("CORS_URLS") or ""
+
+    class Default(Enum):
+            URLS : List = [
+                "http://localhost:3000", 
+                "http://local.episodiq.io", 
+                "https://localhost:5173"
+            ]
+
+    class Action(Enum):
+         EXTRACT : bool = True
+         EVENT : bool = True
+         PROCESS : bool = True
+         REPORT : bool = True
+         MESSAGE : bool = True
+
+    class Timestamp:
+
+        def getTimestampLocal(
+                  tmz : str = "America/New_York"
+            )->str:
+             from datetime import datetime 
+             from pytz import timezone 
+            
+             fmt='%Y-%m-%dT%H:%M:%S'
+             c = timezone(tmz)
+             loc_dt = datetime.now(c)
+             fd = loc_dt.strftime(fmt)
+            
+             return fd
+
+    class SYS(Enum):
+         from module.azure.wasb.config import WASB as Config
+         AFS : Dict[List, Any] = Config.Default.getEnvVariables()
+
+         def getWASBVariable(self)->Dict[List, Any]: 
+              return self.AFS.value
+         
+         def getRegionalEnv()->Dict[List, Any]:
+              r : Dict[List, Any] 
+              r = {
+                   'tz' : "America/New_York",
+                   'ln' : 'English-USA', 
+                   'cc' : 'US', 
+                   'cr' : 'USD'
+              }
+              return r
