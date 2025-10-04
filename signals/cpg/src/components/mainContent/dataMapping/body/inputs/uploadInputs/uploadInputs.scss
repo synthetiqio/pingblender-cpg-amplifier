@@ -1,0 +1,17 @@
+.InputUpload {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+
+    &__component > div > div > span {
+        margin-bottom: 10px;
+        font-size: 20px; 
+        font-weight: 500;
+    }
+
+    .ap-fileupload .ap-fileupload-wrapper .ap-fileupload-fileLists {
+        display:flex; 
+        flex-direction: column;
+        overflow: auto;
+        height: calc(100vh - 720px) !important ; 
+    }
+}

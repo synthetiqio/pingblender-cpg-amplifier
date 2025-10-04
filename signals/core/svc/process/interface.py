@@ -29,7 +29,7 @@ class Collect:
         def exhibit(
                 self,
         ):
-            from module.core.proc.action import Queue
+            from core.proc.action import Queue
             check=Queue(metadata=self.m)
             result=check.Details()
             self.result=result
@@ -99,7 +99,7 @@ class ProcessAction:
         self.singleton= databody 
         configs= ConfigControl()
 
-        self.timer= configs.Timestamp()
+        self.timer= Config
         self.locale:Dict[List, Any] = configs.Region()
         self.error:Dict[List, Any] = configs.ERROR_MSG()
 

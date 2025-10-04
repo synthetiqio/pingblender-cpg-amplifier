@@ -122,7 +122,7 @@ class ModelService:
         return CustomTable(
             table_cells=table_cells, 
             table_col_count=table.column_count,
-            table_row_count=table.row_couint, 
+            table_row_count=table.row_count, 
             header_row_idx=[],
             header_col_idx=[], 
             page_number=table.bounding_regions[0].page_number,

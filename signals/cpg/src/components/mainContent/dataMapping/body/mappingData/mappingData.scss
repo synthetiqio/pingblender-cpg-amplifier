@@ -1,0 +1,31 @@
+.dataMapping {
+    display: flex;
+    flex-direction: column;
+
+    &__table {
+        flex-grow:3;
+        thead {
+            background-color: var(--color-background-alt);
+        }
+
+    &__inner {
+        
+        td:last-child{
+            //text-align: right;
+        }
+
+        .ap-table {
+            box-shadow: none;
+            height: calc(100vh - 416px);
+            overflow: scroll;
+            > table > thead {
+                position: sticky; 
+                top: -4px; 
+                z-index: 15;
+            }
+        }
+    }
+
+    }
+
+}

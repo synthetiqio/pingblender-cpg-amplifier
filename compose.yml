@@ -12,7 +12,7 @@ services:
       - APP_RELOAD=${APP_RELOAD}
       - APP_PORT=${APP_PORT}
       - REQUESTS_CA_BUNDLE=${APP_CERTS}
-
+      - DOCKERIZED=true
       #added in for shell-b
       - DB_DRIVER=${POSTGRES_DRIVER}
       - DB_HOST=${POSTGRES_HOST}
@@ -32,8 +32,35 @@ services:
     networks:
       - synthetiq-agent
     ports:
-      - "8000:8000"
-      
+      - "${APP_PORT}:${APP_PORT}"
+
+
+  frontend:
+    #this is the FastAPI template modified for use here.
+    profiles: ['development']    
+    build:
+      context: ./cpg/
+      env:  ./cpg/.env
+      dockerfile: Dockerfile
+      target: development 
+      args:
+        - NODE_ENV=develoment
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_IMG_PATH=${VITE_IMAGE_PATH}
+    restart: always
+    depends_on:
+      - postgres 
+    ports:
+      - "${CPG_PORT}:${CPG_PORT}"
+    environment:
+        - NODE_ENV=develoment
+        - WEB_PORT=${CPG_PORT}
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_IMG_PATH=${VITE_IMAGE_PATH}
+
+    
+  
+
 
   postgres:
     container_name: 'pgvector-pg16'

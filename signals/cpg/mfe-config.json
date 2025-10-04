@@ -1,0 +1,5 @@
+{
+    "mfes":{
+        "data-mapping": "http://localhost:3001/cpg-data-mapping.js"
+    }
+}

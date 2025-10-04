@@ -34,6 +34,7 @@ from langchain_core.embeddings import Embeddings
 from langchain_community.vectorstores.pgvector import PGVector
 from langchain_community.document_loaders import text
 
+load_dotenv()
 
 cfg = Config(
         state = "start", 
@@ -98,7 +99,7 @@ class Client:
    def createEmbeddings(
          self, 
          data: text, 
-         runner: Embed, 
+         runner: Body.Embed, 
          chunk: Optional[int] = 100
       ):
       return runner.embed_chunk(data, chunk_size=chunk)

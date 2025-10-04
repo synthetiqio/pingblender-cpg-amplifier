@@ -1,0 +1,52 @@
+.review-confirm-container{
+    background-color: white;
+
+    .data-ribbon {
+        display:grid;
+        grid-template-columns: repeat(4,ifr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px; 
+        grid-row-gap:0px; 
+        background: color #f3f3f3;
+        border-radius:10px;
+    
+        .gridChild{
+            justify-self: center;
+            margin:15px;
+        }
+    }
+
+    .review-confirm-table {
+        display:grid; 
+         grid-template-columns: repeat(10,ifr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px; 
+        grid-row-gap:0px; 
+
+        .ap-table-demo-review {
+            grid-column-start: 1;
+            grid-column-end:10;
+            td:last-child{
+                text-align:left;
+            }
+
+            .ap-table {
+                box-shadow:none;
+                height:calc(100vh - 431px);
+                overflow:scroll;
+                > table > thead {
+                    position:sticky; 
+                    top:-4px;
+                    background-color: white;
+                }
+                > table > tbody > tr {
+                    background-color: #f3f3f3;
+                }
+            }
+
+            .review-fields{
+                font-weight:500
+            }
+        }
+    }
+}

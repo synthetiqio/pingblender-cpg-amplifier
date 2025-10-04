@@ -6,11 +6,34 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class WASB:
+
+    #root error message for the module. build on based on details of Exceptions.
     ERROR_MSG:Dict[List,Any]={
             'result':'FAILURE', 
             'message': '[WASB] - Storage option is not configured properly', 
             'payload': None 
     }
+
+    #WASB current service feature actions.
+    class Action(Enum):
+        STORE:bool=True
+        LIST:bool=True 
+        ACTION_1:bool=True 
+        DOWNLOAD:bool=True
+        VIEWFILE:bool=True 
+
+
+    class Ext:
+
+        def ErrorMSG():
+            return CoreConfig.Env.ERROR_MSG
+        
+        def Env():
+            return CoreConfig.Env 
+        
+        def Sys():
+            return CoreConfig.System
+
 
     class Default(Enum):
         ACCOUNT_URL:str= os.getenv("AZURE_STORAGE_URL")
@@ -36,15 +59,6 @@ class WASB:
                     'error_code' : WASB.Default.ERROR_CODE.value
                 }
             return env
-
-
-
-    class Action(Enum):
-        STORE:bool=True
-        LIST:bool=True 
-        ACTION_1:bool=True 
-        DOWNLOAD:bool=True
-        VIEWFILE:bool=True 
 
     class ROUTES(Enum):
         DATA_IN : str = 'data-in'

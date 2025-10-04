@@ -103,7 +103,7 @@ class AzureController:
         try:
             st= await Azure.Storing(
                 file=self.file 
-            ).UploadFile()
+            ).UploadFile(overwrite=overwrite)
             return st 
         except Exception as err:
             return ErrorResponse(f'UploadFile Failed: {err}')

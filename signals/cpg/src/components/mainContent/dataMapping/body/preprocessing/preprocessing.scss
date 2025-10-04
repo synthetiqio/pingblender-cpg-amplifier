@@ -1,0 +1,23 @@
+.preprocessTable{
+    td:last-child{
+        text-align:left;
+    }
+    .ap-table{
+        box-shadow: none;
+        height: calc(100vh - 416px);
+        overflow:scroll; 
+        > table > thead {
+            position:sticky;
+            top:-4px; 
+            z-index:13;
+        }
+    }
+}
+
+.confidence-badge{
+    margin-left:8px; 
+    width:80px;
+    span {
+        font-weight: 300;
+    }
+}

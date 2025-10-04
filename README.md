@@ -4,12 +4,6 @@ Full stack application to present a ready infrastructure for use with evolving A
 ## CURRENT UNIT [TRL3]
 <div align="center">
 <strong>Pingblender CPG - Running DEMO</strong>
-[![PyPI][pypi-badge]][pypi-url]
-[![MIT licensed][mit-badge]][mit-url]
-[![Python Version][python-badge]][python-url]
-[![Documentation][docs-badge]][docs-url]
-[![Specification][spec-badge]][spec-url]
-[![GitHub Discussions][discussions-badge]][discussions-url]
 </div>
 
 ### Case 1: CPG Brand Coverage for Marketing Collateral Workflows &amp; Personalization

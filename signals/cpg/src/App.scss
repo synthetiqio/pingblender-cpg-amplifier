@@ -1,0 +1,25 @@
+@import 'sass-rem/_rem.scss';
+
+body {
+    background-color: var(--color-background-default);
+    margin: 0; 
+    padding: 0; 
+}
+
+.main-content {
+    background-color: white;
+    flex:1; 
+    overflow:auto; 
+    padding: $spacing-4 $spacing-6 $spacing-6 $spacing-6;
+}
+
+.footer-wrapper {
+    flex-shrink: 0;
+    padding: 1rem 0;
+}
+
+.text-with-icon {
+    display:flex; 
+    align-items: center;
+    gap: 8px;
+}

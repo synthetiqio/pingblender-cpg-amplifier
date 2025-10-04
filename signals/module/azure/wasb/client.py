@@ -15,11 +15,14 @@ class Azure:
     ENV:Dict[List, Any]= WASB.Default.getEnvVariables()
 
     try:
+        #set in config.py drawn from .env & actions secrets.
         account_url:str= ENV['url']
         account_name = ENV['name']
         account_key = ENV['access_key']
         account_container = ENV['container']
         account_landing = ENV['ingest']
+
+        #variable constructs
         sas_url = f'{account_url}{account_container}'
         loc:str=None
     except:
@@ -72,6 +75,7 @@ class Azure:
             sas_token = generate_container_sas(
                 account_name = Azure.account_name,
                 container_name = Azure.account_container, 
+                #blob_name = self.file.filename,
                 account_key = key, 
                 permission = CSP(
                     read=True, 
@@ -626,6 +630,7 @@ class Azure:
                         'message': f'[STORAGE] A file with that name exists in the storage location', 
                         'file_url': f'{Azure.account_url}{Azure.account_container}/{Azure.account_landing}/{fn}'
                 }
+                await lbc.close()
             return result 
         
 

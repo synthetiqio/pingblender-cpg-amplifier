@@ -23,7 +23,8 @@ class MetadataService:
             An output will be a list of 10 tags or labels with no other text. They should be in a comma separated string. 
             For example, if the material covers a car it might output: ["make,model,series,engine,style,color,interior,transmission,miles,factory"]. 
             These tags will then be attached to each page of the document to help flassify the document pages for vector search based on questions from users. 
-            Please analyze and generate tags for this content: {content}"""
+            Please analyze and generate tags for this content: {content}
+            """
         resp=model.invoke(prompt)
         print("Tags Generated: ", resp)
         return resp 

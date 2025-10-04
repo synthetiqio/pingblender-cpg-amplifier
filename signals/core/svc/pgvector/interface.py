@@ -95,7 +95,7 @@ class CollectionAction:
             #run through ORM for trace.
         else: 
             stoptime - self.timer.getTimeStampLocal(self.locale['tz'])
-            result = SystemControl.
+            result = SystemControl
             self.metadata.update({'error_action' : stoptime})
             #run through ORM for trace.
 

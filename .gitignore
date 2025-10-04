@@ -6,3 +6,4 @@
 *db*
 *pycache*
 *unit_test*
+.vscode/*

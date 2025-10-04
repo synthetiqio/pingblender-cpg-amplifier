@@ -1,0 +1,10 @@
+.mapping-container-flex {
+    display:flex; 
+    flex-direction: column;
+    gap:40px;
+
+    .mapping-title {
+        font-size:20px; 
+        font-weight:500;
+    }
+}
