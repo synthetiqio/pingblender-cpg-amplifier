@@ -89,7 +89,6 @@ class Schema:
                 changeto=FO.Entity.Query(lookup_key=self.sfid)
                 curstate=FO.Entity.Origin(package=self.start)
                 assigned=curstate.MapView(id=self.sfid)
-
                 assigned['target']=str(self.sfid)
                 try:
                     assigned['source']=str(changeto.getSource(field_idx=assigned['sourceFields'][0]['id'])[0])
@@ -217,7 +216,7 @@ class Schema:
             )->Dict[List,Any]:
                 getcheck=self.lookup
                 par=locals()
-                result = self._getFields(
+                result = self._get_fields(
                     search=getcheck,
                     params=par,
                     vector=self.lu['go']
@@ -257,7 +256,32 @@ class Schema:
                 session.close()
                 return result 
             
-
+            def _getFields(
+                    self,
+                    params:Dict[List,Any], 
+                    search:str, 
+                    vector:str, 
+            )->Dict[List,Any]:
+                table=Schema.Entity.Attribute
+                session=self.Session()
+                sql=select(
+                    table.field_index, 
+                    table.field_type, 
+                    table.field_name, 
+                    table.field_data, 
+                    table.field_conf,
+                    table.field_recc,
+                ).where(
+                    vector==search
+                )
+                runquery=session.execute(sql)
+                results=runquery.fetchall()
+                session.commit()
+                session.flush()
+                self.result = results
+                result:Dict[List,Any]=self.result
+                session.close()
+                return result
             
             def _getAssignments(
                     self,
@@ -622,7 +646,7 @@ class Transact:
         match str(transact).upper():
 
             case 'RETRIEVE':
-                Control.metadata.create_all(Transact.enginer)
+                Control.metadata.create_all(Transact.engine)
                 with Transact.Session() as Session:
                     try:
                         receiver:Dict[List,Any]=payload

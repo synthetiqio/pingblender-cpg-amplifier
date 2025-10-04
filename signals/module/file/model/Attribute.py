@@ -18,7 +18,7 @@ from sqlalchemy.orm import (
     mapped_column, 
     sessionmaker, 
 )
-from module.core.config import Env, System as CoreSys
+from core.config import Env, System as CoreSys
 from module.pgvector.config import ORM
 from module.pgvector.connect import Interface as VectorInterface
 
@@ -174,7 +174,7 @@ class Attribute:
                     'eo':Attribute.Entity.Entry.entity_sfid,
                     'en':Attribute.Entity.Entry.entity_name, 
                     'el':Attribute.Entity.Entry.entity_label,
-                    'es':Attribute.Entity.Entry.attribute_source,
+                    'es':Attribute.Entity.Entry.attr_source,
                     'ma':M.Entity.Entry.entity_sfid,
                     'mt':M.Entity.Entry.entity_trace,
                     'ml':M.Entity.Entry.entity_label,
@@ -512,6 +512,22 @@ class Attribute:
                 responder:Dict[List,Any]=self.result 
                 return responder 
             
+            def mapping_name(
+                    self
+            )->Dict[List, Any]:
+                getcheck = self.lookup
+                params = locals()
+                try:
+                    result = self._getSourceList(
+                        search = getcheck,
+                        params = params,
+                        vector = self.lu['mn']
+                    )
+                    return result
+                except:
+                    return f'File lookup for label {self.lu['mn']} failed'
+                
+
 
         class Retrieve:
 

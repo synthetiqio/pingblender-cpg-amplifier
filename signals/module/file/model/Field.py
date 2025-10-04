@@ -263,7 +263,7 @@ class Field:
             ):
                 from module.file.action.Map import Matrix as M
                 from module.pgvector.control import Collection as C
-                connect = ORM.Db.getConnectionString()
+                connect = ORM.getConnectionString()
                 engine = create_engine(connect)
 
                 self.Session = sessionmaker(bind=engine)

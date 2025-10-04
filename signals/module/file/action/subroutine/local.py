@@ -4,7 +4,7 @@ from module.file.control import File as FLO
 #TODO: add file manager level dynamic controls to positions.
 
 from module.pgvector.control import Collection as R 
-from module.storage.azure.wasb.client import Azure as AzureClient
+from module.azure.wasb.client import Azure as AzureClient
 from typing import List, Dict, Any 
 from fastapi import UploadFile 
 

@@ -1,7 +1,7 @@
-#/signals/rcm/core/service/batch/interface.py
+#/signals/core/service/batch/interface.py
 from typing import List, Dict, Any
-from core.routes.config import API as ConfigControl
-from core.routes.control import APIUnit as ActionControl 
+from core.route.config import API as ConfigControl
+from core.route.control import APIUnit as ActionControl 
 
 class BatchAction:
 
@@ -15,7 +15,7 @@ class BatchAction:
         self.subj= databody['queue']['activity_id']
         self.response= {}
 
-        self.timer= ConfigControl.Timestamp
+        self.timer= ConfigControl.Timestamp()
         self.locale:Dict[List, Any] = ConfigControl.SYS.getRegionalEnv()
         self.error:Dict[List, Any] = ConfigControl.ERROR_MSG
         self.comm:str = databody['command']
@@ -31,7 +31,7 @@ class BatchAction:
     async def ActionHandler(
         self
     )->Dict[List, Any]:
-        starttime= self.timer.getTimestamplocal(self.locale['tz'])
+        starttime= self.timer.getTimestampLocal(self.locale['tz'])
         self.response.update({'action_start': starttime})
         try:
             if self.check == True:
@@ -41,11 +41,11 @@ class BatchAction:
                     params= self.singleton 
                 )
                 result= action
-                stoptime= self.timer.getTimeStamplocal(self.locale['tz'])
+                stoptime= self.timer.getTimestampLocal(self.locale['tz'])
                 self.response.update({'action_complete': stoptime})
             else:
-                stoptime= self.timer.getTimeStamplocal(self.locale['tz'])
-                result.ConfigControl.ERROR_MSG.values
+                stoptime= self.timer.getTimestampLocal(self.locale['tz'])
+                result=ConfigControl.ERROR_MSG.values
                 self.response.update({'action_error': stoptime})
         except Exception as err:
             self.error['payload']= 'Action failed: {}'.format(err)

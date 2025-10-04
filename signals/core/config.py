@@ -11,7 +11,8 @@ import os, sys, datetime, uuid
 class Env:
 
     ERROR_MSG: Dict[List, Any]  = {
-        'response' : 'Failure'
+        'result' : 'FAILURE',
+        'msg':'A CORE Function has failed without further detail.'
     }
 
     class Dock(Enum):
@@ -38,9 +39,9 @@ class Env:
 
 class System: 
 
-    class Timestamp: 
+    class timestamp: 
 
-        def getTimeStampeLocal(tmz : str = "America/New_York")->str:
+        def getTimeStampLocal(tmz : str = "America/New_York")->str:
             from datetime import datetime
             from pytz import timezone
             fmt = '%Y-%m-%dT%H:%M:%S'
@@ -49,7 +50,7 @@ class System:
             fd = loc_dt.strftime(fmt)
             return fd
 
-    class SYS:
+    class system_variables:
 
         def getRegionalEnv()->Dict[List, Any]:
             r : Dict[List, Any] = {
@@ -63,7 +64,7 @@ class CORE:
 
     ERROR_MSG : Dict[List, Any] = {
         'result' : 'Failure',
-        'message' : '[CORE SERVICES] : A systematic failure at the CORE SERVICE level is detected.', 
+        'msg' : '[CORE SERVICES] : A systematic failure at the CORE SERVICE level is detected.', 
         'payload' : None
     }
 
@@ -82,13 +83,13 @@ class CORE:
             core : Dict[List, Any]
             try:
                 core = {
-                'user' : CORE.Default.USER.value,
-                'pass' : CORE.Default.PASS.value,
-                'key' : CORE.Default.KEY.value,
-                'env' : CORE.Default.ENV.value,
-                'tik' : CORE.Default.TIK.value,
-                'tok' : CORE.Default.TOK.value,
-                'ver' : CORE.Default.VER.value
+                'user' : CORE.Default['USER'].value,
+                'pass' : CORE.Default['PASS'].value,
+                'key' : CORE.Default['KEY'].value,
+                'env' : CORE.Default['ENV'].value,
+                'tik' : CORE.Default['TIK'].value,
+                'tok' : CORE.Default['TOK'].value,
+                'ver' : CORE.Default['VER'].value
                 }
             except: 
                 core = {
@@ -129,7 +130,7 @@ class Network:
 
     ERROR_MSG : Dict[List, Any] = {
         'result' : "Failure", 
-        "message" : "[Network Module - CORE] - An Issue prevented the executions of variables in the CORE Unit.", 
+        "msg" : "[Network Module - CORE] - An Issue prevented the executions of variables in the CORE Unit.", 
         "payload" : None
     }
 
@@ -137,8 +138,9 @@ class Network:
 
     class Default(Enum):
             URLS : List = [
-                "http://localhost:3000", 
-                "http://local.episodiq.io", 
+                "http://localhost:3000",
+                "https://pingblender.local:1010" #OOTB Scrambler host.
+                "http://local.pingblender.com", 
                 "https://localhost:5173"
             ]
 
@@ -169,7 +171,7 @@ class Network:
          AFS : Dict[List, Any] = Config.Default.getEnvVariables()
 
          def getWASBVariable(self)->Dict[List, Any]: 
-              return self.AFS.value
+              return self.AFS.values
          
          def getRegionalEnv()->Dict[List, Any]:
               r : Dict[List, Any] 

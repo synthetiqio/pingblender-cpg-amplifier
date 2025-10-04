@@ -18,7 +18,7 @@ class ChatConfig:
                 meta: Dict[List, Any] = None
         ):
             
-            self.error - ConfigControl.ERROR_MSG
+            self.error = ConfigControl().error_msg
             self.m = meta 
             self.result = None
 
@@ -71,22 +71,22 @@ class ChatAction:
     ):
         self.singleton = databody 
         configs = ConfigControl()
-        self.timer= configs.Timestamp()
+        self.timer= ConfigControl.Timestamp()
         self.locale: Dict[List,Any]= configs.Region()
-        self.error: Dict[List, Any]= configs.ERROR_MSG()
+        self.error: Dict[List, Any]= configs.error_msg
 
         self.subj= databody['subject']
-        self.commm : str = databody['command']
-        self.attributes = databody['inputs']['data']
+        self.comm : str = databody['command']
+        self.attr:Dict[List,Any] = databody['inputs']['data']
         self.response: ResponseControl = {}
         self.request : RequestControl = {}
 
-        if 'dynamic_attributes' in self.attributes:
-            self.response.update({'dynamic': self.attributes['dynamic_attributes']})
+        if 'dynamic_attr' in self.attr:
+            self.response.update({'dynamic': self.attr['dynamic_attr']})
 
         self.response.update({'region': self.locale})
         self.response.update({'command' : self.comm})
-        self.response.update({'timer_start' : self.timer.getTimestamplocal(self.locale['tz'])})
+        self.response.update({'timer_start' : self.timer()})
         self.response.update({'subject' : self.subj})
 
         self.check = ConfigControl().checkAction(self.comm.upper())
@@ -95,7 +95,7 @@ class ChatAction:
     async def ActionHandler(
         self
     )->Dict[List, Any]:
-        starttime= self.timer.getTimestamplocal(self.locale['tz'])
+        starttime= self.timer
         self.response.update({'action_start': starttime})
         try:
             if self.check == True:

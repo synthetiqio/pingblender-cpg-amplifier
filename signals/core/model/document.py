@@ -3,7 +3,7 @@ from typing import List, Optional
 import uuid
 from pydantic import BaseModel as PydanticBM
 from dataclasses import dataclass
-from core.model.embed import Embed as DefaultModel
+from core.model.embed import EmbedBase as EmbedModel
 import core.model.search as Query
 
 class BModel(PydanticBM):
@@ -59,7 +59,7 @@ class SearchConfig(BModel):
 
 class Construct(BModel):
     split_strategy : Optional[SplitStrategy] = SplitStrategy.PAGE.value
-    embed_model : Optional[DefaultModel] = DefaultModel.EMB_ADA_002.value
+    embed_model : Optional[EmbedModel] = EmbedModel
     collection_name : Optional[str] = "default"
     chunk_size : Optional[int] = 1000
     chunk_overlap: Optional[int] = 0
@@ -75,7 +75,7 @@ class Collection:
 
     @dataclass
     class Metadata:
-        coll_model: DefaultModel = None
+        coll_model: EmbedModel = None
         coll_chunk_split: SplitStrategy = None
         coll_document_title : str = None 
         coll_timestamp : str = None
@@ -86,7 +86,7 @@ class Chunk:
 
     @dataclass
     class Metadata:
-        meta_model : DefaultModel = None
+        meta_model : EmbedModel = None
         meta_strategy : SplitStrategy = None
         meta_chunk_number : int = None
         meta_chunk_total : int = None

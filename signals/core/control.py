@@ -1,4 +1,4 @@
-from core.config import Network as Config
+from core.config import Network as Config, System as Sys
 from typing import List, Dict, Any
 from module.pretzl.parser import Read as ReaderService
 from core.svc.cmd import BatchCommand as EntityAction
@@ -41,7 +41,7 @@ class APIUnit:
     ): 
         pass 
 
-    def runPlan(
+    def run_plan(
             command: str, 
             params: Dict[List, Any]
     )->Dict[List, Any]:
@@ -63,7 +63,7 @@ class ActionController:
     ):
         pass 
 
-    def runPlan(
+    def run_plan(
             command : str, 
             params: Dict[List, Any]
     )->Dict[List, Any]:
@@ -104,10 +104,10 @@ class ConfigController:
         self.error : Dict[List, Any] = Config.ERROR_MSG
 
     def Region(self):
-        return Config.Ext.Sys().SYS.getRegionalEnv()
+        return Config.SYS.getRegionalEnv()
     
     def Filesep(self):
-        return Config.Ext.Env().Dock.FS
+        return Config.SYS.Config
     
     def Timestamp(self):
         return Config.Ext.Sys().Timestamp

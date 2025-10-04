@@ -41,6 +41,9 @@ class System(CoreSys):
         if timezone:
             self.region= timezone
 
+    def system_error(self):
+        return CoreSys.system_variables
+
     def getTimeStamp(self):
         return CoreSys.SYS.getRegionalEnv(tmz=self.region)
     

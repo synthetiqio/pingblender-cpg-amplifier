@@ -30,11 +30,11 @@ class STORAGE:
             rte : Dict = {}
             try: 
                 rte = {
-                    'ingest' : STORAGE.ROUTES.DATA_IN.value, 
-                    'product' : STORAGE.ROUTES.DATA_OUT.value,
-                    'tmp' : STORAGE.ROUTES.TMP_DATA.value, 
-                    'arch' : STORAGE.ROUTES.ARCHIVE.value, 
-                    'meta' : STORAGE.ROUTES.METADATA.value
+                    'ingest' : STORAGE.ROUTES['DATA_IN'].value, 
+                    'product' : STORAGE.ROUTES['DATA_OUT'].value,
+                    'tmp' : STORAGE.ROUTES['TMP_DATA'].value, 
+                    'arch' : STORAGE.ROUTES['ARCHIVE'].value, 
+                    'meta' : STORAGE.ROUTES['METADATA'].value
                 }
             except:
                 rte = {
@@ -63,14 +63,14 @@ class STORAGE:
             env : Dict = {}
             try:
                 env = {
-                    'url' : STORAGE.Default.ACCOUNT_URL.value, 
-                    'name' : STORAGE.Default.ACCOUNT_NAME.value, 
-                    'access_key' : STORAGE.Default.ACCESS_KEY.value, 
-                    'container' : STORAGE.Default.ACCOUNT_CONTAINER.value, 
-                    'ingest' : STORAGE.Default.FILE_INGEST.value
+                    'url' : STORAGE.Default['ACCOUNT_URL'].value, 
+                    'name' : STORAGE.Default['ACCOUNT_NAME'].value, 
+                    'access_key' : STORAGE.Default['ACCESS_KEY'].value, 
+                    'container' : STORAGE.Default['ACCOUNT_CONTAINER'].value, 
+                    'ingest' : STORAGE.Default['FILE_INGEST'].value
                 }
             except: 
                 env = {
-                    'error_code' : STORAGE.Default.ERROR_CODE.value
+                    'error_code' : STORAGE.Default['ERROR_CODE'].value
                 }
             return env

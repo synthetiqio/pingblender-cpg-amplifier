@@ -10,16 +10,22 @@ class LANG:
                 'payload' : None
     }
 
+    def get_timestamp():
+        return Core.System.timestamp()
+
     class Ext:
 
+        def __init__():
+            pass 
+
         def ErrorMSG():
-            return Core.Env.ERROR_MSG
+            return Core.Env.ERROR_MSG.values
         
         def Env():
-            return Core.Env
+            return Core.Env()
         
         def Sys():
-            return Core.System
+            return Core.System()
         
     
     class SYS(Enum):

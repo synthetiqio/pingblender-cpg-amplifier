@@ -16,7 +16,7 @@ class FileLookup:
 
         def __init__(
                 self, 
-                action, 
+                action:str, 
                 meta
             ):
             self.local:Dict[List, Any]=ConfigControl.SYS.getRegionalEnv()
@@ -105,10 +105,14 @@ class GET_Handler:
         ):
         self.singleton=databody
         self.attributes=databody['inputs']
+        self.metadata=databody
 
         self.response:Dict[List,Any]={}
         self.request:Dict[List,Any]={}
+
+        self.locale=ConfigControl.SYS.getRegionalEnv()
         self.error:Dict[List,Any]=ConfigControl.ERROR_MSG
+        self.timer=ConfigControl.Timestamp()
 
         self.subj=databody['subject']
         self.comm:str=databody['command']
@@ -188,7 +192,7 @@ class FileAction:
         self.exec = action.upper()
         metadata = InputControl.MetadataController(
             meta=metadata
-        ).cleanKeys()
+        ).clean_keys()
         self.metadata = metadata 
        
         #regional metadata appended 

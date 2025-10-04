@@ -1,4 +1,4 @@
-from module.file.config import MATRIX as ConfigController
+from module.file.config import MATRIX as ConfigControl
 from typing import Dict, List, Any
 from uuid import uuid4
 

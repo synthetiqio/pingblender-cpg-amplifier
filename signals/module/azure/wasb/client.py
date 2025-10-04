@@ -338,10 +338,13 @@ class Azure:
             else:
                 return f'{u}'+'NO_SAS_AVAILABLE'
         
-        def downloadUrlUsingBlobUrl(self, blob_url):
+        def downloadUrlUsingBlobUrl(
+                self, 
+                blob_url
+            ):
             from urllib.parse import urlparse
             parsed_url= urlparse(blob_url)
-            path= parsed_url.path
+            path:str= parsed_url.path
             if path.startswith('/'):
                 path=path[1:]
             parts=path.split('/', 2)

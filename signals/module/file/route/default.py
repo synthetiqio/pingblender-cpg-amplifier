@@ -64,7 +64,7 @@ async def return_filedata(
         'inputs':body
     })
     try:
-        from core.svc.file.interface import Action as GetAction 
+        from core.svc.file.interface import FileAction as GetAction 
         action=GetAction(databody=reqs)
         await action.ActionHandler()
         result:Dict[List,Any]=await action.ResponseHandler()
@@ -117,7 +117,7 @@ async def file_action(
     mimeo_graffiti_subscription:Annotated[str|None, Header()]=None,
     authorization:Annotated[str|None, Header()]=None 
 ):
-    from core.svc.file.interface import Action as ThisAction
+    from core.svc.file.interface import FileAction as ThisAction
     #ch= await AuthController(auth_token=authorization).validate()
     # if ch['status_code']==401:
     #     raise HTTPException(

@@ -8,8 +8,8 @@ from core.model.request import DocManage as RequestControl
 from module.file.response.document import Response as ResponseControl 
 from module.file.control import (
     View as MetaControl, 
-    DocumentController as ActionControl,
-    InterfaceController as InterfaceControl
+    Document as ActionControl,
+    Interface as InterfaceControl
 )
 
 class Lookup:
@@ -17,7 +17,7 @@ class Lookup:
 
         def __init__(
                 self, 
-                action, 
+                action:str, 
                 meta
             ):
             self.local : Dict[List, Any] = ConfigControl.SYS.getRegionalEnv()
@@ -31,7 +31,7 @@ class Lookup:
         def exhibit(
                 self 
             ):
-            from module.file.control import RetrievalController as Retrieve
+            from module.file.control import Retrieve
             check = Retrieve(metadata=self.m)
             result = check.Details()
             self.result = result
@@ -42,7 +42,8 @@ class Lookup:
                 self
             ):
             response : Dict[List, Any] = self.result
-            response.update(self.m)
+            response.update({self.m})
+            return response 
             
 class Interface:
     class Meta:
@@ -53,6 +54,7 @@ class Interface:
                 meta : Dict[List, Any], 
                 dest:str=None,
             ):
+            msg=str(f'Document interface created for COMMANDS')
             instance = super().__new__(cls)
             return instance
             
@@ -72,12 +74,18 @@ class Interface:
                 file=MetaControl().Document(params=self.meta).getLocation()
                 return file 
             else:
-                return 'No Location Available.'
+                return str(f'No Location Available.')
+            
+
+        def fromDocument(self):
+            response:Dict[List,Any]={}
+            if self.file == None:
+                response.update({"file":"No File Provided."})
 
         def File(self):
-            response : Dict[List, Any]
+            response : Dict[List, Any]={}
             if self.file == None:
-                response = {"FILE : No File Provided"}
+                response.update({"FILE : No File Provided"})
             else: 
                 filename = self.file.filename
                 goho:Dict[List, Any] = {"package" : {}}
@@ -136,6 +144,7 @@ class Action:
         except:
             self.attributes.update({'dynamic':'Default'})
         
+        #ready timer and metadata for transition to active event.
         self.response.update({
             'region':self.locale, 
             'command':self.comm.upper(), 
@@ -148,6 +157,7 @@ class Action:
     async def ActionHandler(
             self
     )->Dict[List,Any]:
+        self.response:Dict[List,Any]={}
         #begins logical execution of the command.
         starttime=self.timer.getTimestampLocal(self.locale['tz'])
         self.response.update({'action_start':starttime})
@@ -192,7 +202,7 @@ class Action:
             payload = self.error['payload']
             response = {
                     'result': out, 
-                    'message':msg, 
+                    'msg':msg, 
                     'payload':payload 
                 }
         return response 

@@ -53,14 +53,14 @@ class CollectionAction:
 
     def __init__(
             self, 
-            action: str, 
+            action:str, 
             file: UploadFile = None, 
             metadata: Dict[List, Any]= None, 
             terminus: str = None,
     ):
-        self.locale: Dict[List, Any] = SystemControl.detectRegion()
-        self.check = EntityControl.Entity[action.upper()].value
-        self.timer = SystemControl.getTimestamp(region= self.locale['tz'])
+        self.locale: Dict[List, Any] = SystemControl.getRegionEnv()
+        self.check = EntityControl.Entity[f'{action.upper()}']
+        self.timer = SystemControl.timestamp(region= self.locale['tz'])
 
 
         self.metadata = {}
@@ -73,14 +73,14 @@ class CollectionAction:
         else:
             self.metadata= {
                 'command': self.exec, 
-                'control': self.timer.getTimestampLocal(self.locale['tz']), 
+                'control': self.timer.getTimeStampLocal(self.locale['tz']), 
             }
         self.exec = action.upper()
 
     async def ActionHandler(
             self
     )->Dict[List, Any]:
-        starttime = self.timer.getTimestampLocal(self.locale['tz'])
+        starttime = self.timer.getTimeStampLocal(self.locale['tz'])
         self.metadata.update({'action_start' : starttime})
         if self.check == True:
             print('PGVector Collection : Action -> '+self.exec)
@@ -90,12 +90,12 @@ class CollectionAction:
                 meta = self.metadata
             )
             result = action
-            stoptime = self.timer.getTimestampLocal(self.locale['tz'])
+            stoptime = self.timer.getTimeStampLocal(self.locale['tz'])
             self.metadata.update({'action_complete' : stoptime})
             #run through ORM for trace.
         else: 
-            stoptime - self.timer.getTimestampLocal(self.locale['tz'])
-            result = SystemControl.ERROR_MSG.values
+            stoptime - self.timer.getTimeStampLocal(self.locale['tz'])
+            result = SystemControl.
             self.metadata.update({'error_action' : stoptime})
             #run through ORM for trace.
 

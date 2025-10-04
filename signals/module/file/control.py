@@ -35,7 +35,7 @@ class Collect:
         self.params = locals()
         self.collection : Dict[List, Any] = {}
 
-    def getFilesList(
+    def get_files_list(
             self
         ):
         from module.pgvector.control import Collection as ColCon
@@ -68,7 +68,7 @@ class File:
 
 
 
-        def cleanDetails(self):
+        def clean_details(self):
             keypops = ["FileAction", "meta", "file", "files", "runner"]
             for item in keypops:
                 if item not in self.startmet['inputs']:
@@ -79,7 +79,7 @@ class File:
             return self.cleanmet
         
             
-        def deleteKey(
+        def delete_key(
                 self, 
                 evals:Dict[List, Any], 
                 delkey:str
@@ -91,7 +91,7 @@ class File:
             else: 
                 return evals
             
-        def cleanKeys(
+        def clean_keys(
                 self
             ):
             keypops = ["FileAction", "meta", "file", "files"]
@@ -120,7 +120,7 @@ class File:
             self.command= command 
 
 
-        def runInterpreter(
+        def run_interpreter(
                 self, 
                 result
         ):
@@ -155,7 +155,7 @@ class File:
         self.rootdir= os.getcwd()
         self.label= None
 
-    def objectTest(self)->Dict[List, Any]:
+    def test_obj(self)->Dict[List, Any]:
         filename : str = self.file_name
         response : Dict[List, Any] = {
             'response' : 'SUCCESS',
@@ -164,7 +164,7 @@ class File:
         return response 
     
 
-    def setFileLabel(
+    def set_file_label(
             self, 
             label:str
         ):
@@ -172,7 +172,7 @@ class File:
         return self.label
     
 
-    def getFileLabel(
+    def get_file_label(
             self,
         ):
         if self.label != None:
@@ -181,7 +181,7 @@ class File:
             return self.file_name.split('.')[0]
         
 
-    async def sendToAzureStorage(
+    async def send_storage_azure(
             self, 
             file:UploadFile= None, 
             stream:BytesIO= None,
@@ -198,7 +198,7 @@ class File:
             result= await store.UploadFile()
         return result
 
-    async def fileUpload(
+    async def file_upload(
             self
         )->Dict[list, Any]:
         print("[FILE] - Starting file upload for local utility.")
@@ -219,7 +219,7 @@ class File:
         output : str = os.getcwd()
         x : Dict[List, Any] = {'result' : result}
         x.update({'file_trace' : self.init_config})
-        x.update({'file_label' : self.getFileLabel()})
+        x.update({'file_label' : self.get_file_label()})
         x.update({'reader_set' : rs.getFileReader()})
         #x.update({'columns':rs.getDataColumns()})
         x.update({'reset_dir' : output})
@@ -244,7 +244,7 @@ class File:
         return self.file_content
     
 
-    async def blobUpload(
+    async def blob_upload(
             self,
     ):
         rs = ReaderService(
@@ -254,7 +254,7 @@ class File:
         )
         zed:Dict[List,Any]={}
         from module.azure.wasb.control import BlobController
-        result:Dict[List,Any]= await self.sendToAzureStorage(
+        result:Dict[List,Any]= await self.send_storage_azure(
             file=self.file_content
         )
         print(result)
@@ -272,13 +272,13 @@ class File:
             'result':out, 
             'blob':blobname,
             'file_trace': self.init_config,
-            'file_label': self.getFileLabel(),
+            'file_label': self.get_file_label(),
             'reader_set': rs.getFileReader() 
         })
         return zed
 
     
-    async def Blobstore(self):
+    async def blob_store(self):
         from module.azure.wasb.control import BlobController
         rs=ReaderService(
             file=self.file_content, 
@@ -286,7 +286,7 @@ class File:
             construct=self.init_config
         )
         x:Dict[List,Any]={}
-        result:Dict[List,Any]=await self.sendToAzureStorage(
+        result:Dict[List,Any]=await self.send_storage_azure(
             file=self.file_content
         )
         print(result)
@@ -304,7 +304,7 @@ class File:
             "result": out, 
             "blob":blobname, 
             "file_trace":self.init_config(), 
-            "file_label":self.getFileLabel(),
+            "file_label":self.get_file_label(),
             "reader_set":rs.getFileReader()
         })
         return x
@@ -532,9 +532,9 @@ class Document:
         response:Dict[List, Any]=ma.Action(graph=params)
         return response 
 
-class Matrix:
+class MatrixControl:
 
-    class MetadataController: 
+    class Metadata: 
         def __init__(
                 self, 
                 metadata:Dict[List,Any]
@@ -542,7 +542,7 @@ class Matrix:
             self.meta = metadata
             pass 
 
-        def getAttr(
+        def get_attr(
                 self
         ):
             from core.model.request import Matrix 
@@ -558,11 +558,11 @@ class Matrix:
             else:
                 return self.meta['inputs']
 
-    def MetaData():
+    def meta_data():
         m : Dict[List, Any] = {}
         return m
     
-    def runPlan(
+    async def run_plan(
             command:str, 
             graph:Dict[List, Any], 
             meta:Dict[List, Any]

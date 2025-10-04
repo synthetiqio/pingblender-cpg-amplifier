@@ -61,7 +61,7 @@ class FileCommand:
                                     file=self.file, 
                                     fn = self.file.filename, 
                                     construct=configs
-                              ).fileUpload()
+                              ).file_upload()
                               print("[FILE] - Controller Accessed.")
                               outcome.update({'headers':
                                               { 
@@ -82,10 +82,10 @@ class FileCommand:
                                     file=self.file, 
                                     fn=self.file.filename, 
                                     construct=configs 
-                              ).Blobstore()
+                              ).blob_store()
                               outcome.update({
                                     'headers': {
-                                          'genesis':self.filename, 
+                                          'genesis':self.file.filename, 
                                           'bytes':self.file.size
                                     }
                               })
@@ -133,7 +133,7 @@ class FileCommand:
                               response = u
                               
 
-                        case 'COLLECT':
+                        case 'LIST':
                               from module.file.control import Collect as C
                               runner : Dict[List, Any] = {}
                               results = C(metadta=self.meta).getFilesList()
@@ -143,14 +143,15 @@ class FileCommand:
                                   response = runner
                               else:
                                   response = {
-                                          "FILE LIST  : No Files in collection"
+                                          'result': 'NONE',
+                                          'msg': "FILE LIST  : No Files in collection"
                                     }
 
                             
                         case 'DELETE':
-                              from module.file.control import FileControl
-                              runner = FileControl(file=self.file, fn=self.file.filename)
-                              outcome : Dict[List, Any] = await FileControl.de
+                              from module.file.control import File as D
+                              runner = D(file=self.file, fn=self.file.filename)
+                              outcome : Dict[List, Any] = await D.file_delete(data, configs)
                               response = outcome
                               
                         case 'ANALYZE':
@@ -160,7 +161,7 @@ class FileCommand:
                               )
                               subject = U(metadata=self.meta).Location()['metadata']['details']['url']
                               runner = A(filepath=subject)
-                              outcome : Dict[List, Any] = await A.Analyze()
+                              outcome : Dict[List, Any] = await A.fileAnalyze()
                               response = outcome 
 
                         case 'EMBED':
@@ -261,7 +262,12 @@ class MatrixCommand:
 
                   case 'CREATE':
                         import json
-                        from module.file.control import RetrievalController as R, MapController as M
+                        from module.file.control import (
+                              Retrieve as R, 
+                              Map as M, 
+                              Filter as ET
+                        )
+                        from module.file.action.subroutine.target import Sub as T
                         from module.file.action.File import Load as B
                         from module.file.action.Map import Matrix as X
                         from module.file.model.Field import Field as F
@@ -285,7 +291,7 @@ class MatrixCommand:
                         print('MATRIX : CREATE - generates a metadata representation of file qualities')
                         tracer = X.Entity.Origin(package=outcome)
                         graph = tracer.CreateGraph()
-
+                        await T(metadata=self.meta).set()
                         print("CHAT ENGAGED in files analysis from source tied to target input model")
                         lister = X.Entity.Origin(package=self.meta).GetSourceSamples()
                         for row in enumerate(lister):
@@ -310,7 +316,7 @@ class MatrixCommand:
                         response = result 
 
                   case 'CHAT': 
-                        from module.file.control import RetrievalController as Re 
+                        from module.file.control import Retrieve as Re 
                         from module.file.action.Chat import Chat as Ch
                         from module.file.action.Map import Matrix as Mx
                         target  = Re(metadata=self.meta).Location()

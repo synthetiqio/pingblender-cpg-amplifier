@@ -12,36 +12,38 @@ class ConfigController:
             state : str = None
     ):
         
-        self.error : Dict[List, Any] = Config.ERROR_MSG
+        self.error_msg : Dict[List, Any] = {}
 
-        def Region(self):
-            return Config.Ext.Sys().SYS.getRegionalEnv()
+    def Region(self):
+        return Config.SYS.getRegionalEnv()
         
-        def Filesep(self):
-            return Config.Ext.Env().Dock.FS
+    def Filesep(self):
+        return Config.Ext().Env()
         
-        def Timestamp(self):
-            return Config.Ext.Sys().Timestamp
+    def Timestamp(self):
+        return Config.get_timestamp()
         
-        def ErrorMSG(
-                self,
-                msg:str=None 
-        ):
-            self.error['payload']=msg 
-            return self.error 
+    def ErrorMSG(
+            self,
+            msg:str=None 
+    ):
+        self.error_msg = Config.ERROR_MSG
+        if msg is not None:
+            self.error_msg.update({'payload':f'{msg}'}) 
+        return self.error_msg
         
 
-        def checkAction(
-                self, 
-                action:str
-        ):
-            try:
-                check=Config.Action[action.upper()].value 
-            except ValueError as err:
-                msg=f'Action {action} not found in configurations.'
-                self.error['payload'] = msg 
-                check = self.error 
-            return check 
+    def checkAction(
+            self, 
+            action:str
+    ):
+        try:
+            check=Config.Action[action.upper()].value 
+        except ValueError as err:
+            msg=f'Action {action} not found in configurations.'
+            self.error_msg.update({'payload':f'{msg}'}) 
+            check = self.error_msg 
+        return check 
         
 
 class InterfaceController:

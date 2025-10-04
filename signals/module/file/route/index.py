@@ -30,7 +30,7 @@ file_module=APIRouter()
     path="/{command}", 
     tags=['File Entity Actions'], 
     status_code=status.HTTP_200_OK,
-    summary="ENDPOING: return_filedata - command (str): [DETAILS, HEADINGS, GETLOC, UPDATE]", 
+    summary="ENDPOINT: return_filedata - command (str): [DETAILS, HEADINGS, GETLOC, UPDATE]", 
     description="SFID extended file search for details and fields, tables or positions of data \
         files within system controls",
     responses={
